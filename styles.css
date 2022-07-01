@@ -1,0 +1,221 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: white;
+}
+
+section {
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+    /* border: 1px red solid; */
+    /* background-color:rgb(255, 0, 0, 0.3); */
+}
+
+
+#gag_calculator {
+    float: left;
+    width: 49%;
+    /* padding-left: 5%; */
+}
+
+#cog_label {
+    margin-right: 20px;
+}
+
+#cog_health {
+    position: fixed;
+    float: right;
+    width: 49%;
+    top: 40%;
+    right: 10%;
+}
+
+#level {
+    height: 20px;
+    padding: 5px 0px;
+}
+
+#cog_input {
+    height: 32px;
+    font-size: 24px;
+}
+
+.big-font {
+    font-size: 32px;
+}
+
+#cog_health_value {
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 960px) {
+    #cog_label::after {
+        content: '\A';
+        white-space: pre;
+    }
+
+    #cog_health {
+        position: fixed;
+        display: block;
+        float: right;
+        width: 49%;
+        top: 40%;
+        right: 1.5%;
+    }
+}
+
+
+.nontable {
+	font-family: arial;
+	text-align: center;
+}
+
+#title {
+	margin: 40px 0px 20px 0px;
+	text-align: center;
+}
+
+
+#dir_p {
+	margin: 10px 0px 0px 0px;
+}
+
+#div_heal {
+    width: 100px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#div_dmg {
+	width: 100px;
+	margin: auto;
+	margin-top: 0px;
+	margin-bottom: 30px;
+}
+
+#gag_table {
+	/* border: 2px solid black;
+	border-radius: 4px; */
+	margin: auto;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.gag_img {
+    width: 40px;
+}
+
+th {
+	width: 100px;
+}
+
+.gag_box {
+	border: 2px solid #333333;
+	text-align: center;
+	width: 60px;
+	background-color: #0270BB;
+	border-radius: 10px;
+}
+
+.gag_box:hover {
+	background-color: #1995E6;
+}
+
+.gag_box:active {
+	background-color: #2BACFF;
+}
+
+.outer_elt {
+	border: 2px solid #333333;
+	border-radius: 10px;
+}
+
+.outer_elt > table {
+	border-radius: 6px;
+}
+
+#toonup_table {
+	background-color: #C58BEF;
+}
+
+#trap_table {
+	background-color: #E9EF57;
+}
+
+#lure_table {
+	background-color: #4BB247;
+}
+
+#sound_table {
+	background-color: #5866E1;
+}
+
+#throw_table {
+	background-color: #F0893E;
+}
+
+#squirt_table {
+	background-color: #F13DBA;
+}
+
+#drop_table {
+	background-color: #40E4EE;
+}
+
+#div_undo {
+	text-align: center;
+}
+
+button {
+	display: inline-block;
+	margin: auto;
+	margin-top: 20px;
+	padding: 5px 5px 5px 5px;
+	border: 2px solid darkslategray;
+	border-radius: 5px;
+	font-weight: bold;
+	height: 40px;
+}
+
+#div_trapped {
+	margin-top: 20px;
+}
+
+#button_trapped {
+	background-color: #E9EF57;
+}
+
+#button_lured {
+	background-color: #84E080;
+}
+
+#button_undo {
+	background-color: #FFD24A;
+}
+
+#button_reset {
+	background-color: #FF6E6E;
+}
+
+#updates {
+	margin-top: 40px;
+	margin-bottom: 20px;
+	font-size: 75%;
+}
+
+#span_dmg, #span_heal {
+    font-weight: bold;
+}
+
+/*
+COLORS:
+#0270BB = schticker book
+#0E87BE = schticker book hover
+#0288DF = battle
+*/
+
+/* Copyright 2016 Ethan Hong */
