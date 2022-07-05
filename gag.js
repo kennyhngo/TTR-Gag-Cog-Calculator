@@ -110,13 +110,13 @@ img_to_gag["images/Bamboo_Cane.webp"] = new Toon_up(
 img_to_gag["images/Pixie_Dust.webp"] = new Toon_up(
   "Toon-up",
   "Pixie Dust",
-  70,
+  60,
   false
 );
 img_to_gag["images/Juggling_Balls.webp"] = new Toon_up(
   "Toon-up",
   "Juggling Balls",
-  120,
+  105,
   true
 );
 img_to_gag["images/High_Dive.webp"] = new Toon_up(
@@ -136,9 +136,9 @@ img_to_gag["images/Banana_Peel.webp"] = new Trap(
 img_to_gag["images/Rake.webp"] = new Trap("Trap", "Rake", 20, false);
 img_to_gag["images/Marbles.webp"] = new Trap("Trap", "Marbles", 35, false);
 img_to_gag["images/Quicksand.webp"] = new Trap("Trap", "Quicksand", 50, false);
-img_to_gag["images/Trapdoor.webp"] = new Trap("Trap", "Trapdoor", 70, false);
+img_to_gag["images/Trapdoor.webp"] = new Trap("Trap", "Trapdoor", 85, false);
 img_to_gag["images/TNT.webp"] = new Trap("Trap", "TNT", 180, false);
-img_to_gag["images/Railroad.webp"] = new Trap("Trap", "Railroad", 195, true);
+img_to_gag["images/Railroad.webp"] = new Trap("Trap", "Railroad", 200, true);
 
 // Lure gags
 img_to_gag["images/$1_Bill.webp"] = new Lure("Lure", "$1 Bill", 0, false);
@@ -275,7 +275,7 @@ img_to_gag["images/Big_Weight.webp"] = new Drop(
   45,
   false
 );
-img_to_gag["images/Safe.webp"] = new Drop("Drop", "Safe", 60, false);
+img_to_gag["images/Safe.webp"] = new Drop("Drop", "Safe", 70, false);
 img_to_gag["images/Grand_Piano.webp"] = new Drop(
   "Drop",
   "Grand Piano",
@@ -288,7 +288,12 @@ var organic_gags = new Map();
 for (let i in img_to_gag) {
   organic_gags[i] = $.extend(true, [], img_to_gag[i]);
   organic_gags[i].is_organic = true;
-  organic_gags[i].dmg = Math.floor(organic_gags[i].dmg * 1.1);
+  let org_dmg = Math.floor(organic_gags[i].dmg * 1.1);
+  if (organic_gags[i].dmg == org_dmg) {
+    organic_gags[i].dmg = org_dmg + 1;
+  } else {
+    organic_gags[i].dmg = Math.floor(organic_gags[i].dmg * 1.1);
+  }
 }
 
 var gag_queue = []; // to allow for undoing
