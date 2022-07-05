@@ -52,10 +52,11 @@ section {
     font-weight: bold;
 }
 
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1260px) {
     #cog_label::after {
         content: '\A';
         white-space: pre;
+        color: red;
     }
 
     #cog_health {
@@ -68,7 +69,6 @@ section {
     }
 }
 
-
 .nontable {
 	font-family: arial;
 	text-align: center;
@@ -78,7 +78,6 @@ section {
 	margin: 40px 0px 20px 0px;
 	text-align: center;
 }
-
 
 #dir_p {
 	margin: 10px 0px 0px 0px;
