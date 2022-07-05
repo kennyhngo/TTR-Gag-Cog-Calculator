@@ -374,6 +374,7 @@ function undo_gag(enqueue_counter) {
     html_prev_gag();
     return enqueue_counter - 1;
   }
+  return 0;
 }
 
 // returns updated dmg_val; MUST assign because dmg_val is passed by value
@@ -522,47 +523,25 @@ function enqueue(gag, enqueue_counter, is_lured_button) {
   // is_lured_button; // to be passed into dmg_calc;
 
   // fixme must sort based on gag, weakest gag used first for purposes of v2.0 calc
-
-  if (
-    enqueue_counter >= 4 ||
-    enqueue_counter === NaN ||
-    enqueue_counter === undefined
-  ) {
+  console.log("enqueue counter: " + enqueue_counter);
+  if (enqueue_counter === 4) {
     alert("Error: the maximum gags have already been chosen!");
-    return;
+    return 4;
   }
   if (gag.gag_type === "Toon-up") {
     toon_up_queue.push(gag);
   } else if (gag.gag_type === "Trap") {
     if (is_lured_button) {
       alert("Error: cannot use a Trap gag on a cog that is already lured!");
-      return;
-    }
-    // fixme decide on implementation: allow or disallow multi trap use
-    // if (trap_queue.length >= 1) {
-    // 	alert("Error: a trap gag is already being used against the cog!");
-    // 	return;
-    // }
-    // else {
-    if (is_lured_button) {
-      alert("Cannot use trap on an already lured cog!");
-      return;
+      return 0;
     }
     trap_queue.push(gag);
-    //}
   } else if (gag.gag_type === "Lure") {
-    // if (lure_queue.length >= 1) {
-    // 	alert("Error: a lure gag is already being used against the cog!");
-    // 	return;
-    // }
-    // else {
     if (is_lured_button) {
       alert("Cog is already lured from previous turn!");
-      return;
-    } else {
-      lure_queue.push(gag);
+      return 0;
     }
-    // }
+    lure_queue.push(gag);
   } else if (gag.gag_type === "Sound") {
     sound_queue.push(gag);
   } else if (gag.gag_type === "Throw") {
