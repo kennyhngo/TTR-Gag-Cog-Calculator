@@ -306,6 +306,9 @@ var throw_queue = [];
 var squirt_queue = [];
 var drop_queue = [];
 
+// for v2.0 cogs
+var v2 = -1;
+
 function clear_gags() {
   gag_queue.length = 0;
   toon_up_queue.length = 0;
@@ -388,12 +391,21 @@ function bonus_dmg(dmg_in) {
   return Math.ceil(dmg_in * 0.2);
 }
 
+function reduce_dmg() {
+  return Math.floor(v2 * 1.5);
+}
+
 // returns new damage
 function single_track_dmg(track, is_lured, each_hit, dmg) {
   let same_track_dmg = 0;
   for (i = 0; i < track.length; i++) {
-    dmg = add_dmg(each_hit, dmg, track[i].dmg);
-    same_track_dmg += track[i].dmg;
+    let tr_dmg = track[i].dmg;
+    if (v2 !== -1) {
+      tr_dmg = Math.max(0, track[i].dmg - reduce_dmg());
+    }
+
+    dmg = add_dmg(each_hit, dmg, tr_dmg);
+    same_track_dmg += tr_dmg;
   }
 
   // bonus damage only occurs if more than 1 gag of same type used
@@ -415,7 +427,6 @@ function single_track_dmg(track, is_lured, each_hit, dmg) {
   return { dmg: dmg, is_lured: is_lured };
 }
 
-// returns total healing for now
 function update_damage(is_lured_button) {
   let trap_potential = 0;
   let each_hit = []; // will be passed into 2.0 cog calculator
@@ -429,27 +440,16 @@ function update_damage(is_lured_button) {
   for (i = 0; i < toon_up_queue.length; i++) {
     heal += toon_up_queue[i].dmg;
   }
-  // for (i = 0; i < trap_queue; i++) {
-  // 	// trap can only be set if the cog is not already lured
-  // 	// this should never happen as long as if the is_lured button is pressed,
-  // 	// then gag_queue resets
-  // 	if (!is_lured_button) {
-  // 		if (i === 0) {
-  // 			trap_potential += trap_queue[i].dmg;
-  // 		}
-  // 		else {
-  // 			trap_potential = 0; // trap gags cancel each other out
-  // 		}
-  // 	}
-  // }
 
   // trap
-  if (trap_queue.length == 1 && is_lured_total === true) {
-    // trap_potential += trap_queue[0].dmg;
+  if (trap_queue.length === 1 && is_lured_total === true) {
     dmg = add_dmg(each_hit, dmg, trap_queue[0].dmg);
     is_lured_total = false;
-  } else if (trap_queue.length == 1) {
+  } else if (trap_queue.length === 1) {
     trap_potential += trap_queue[0].dmg;
+    if (v2 !== -1) {
+      trap_potential = Math.max(0, trap_potential - reduce_dmg());
+    }
   }
 
   // lure
@@ -463,28 +463,13 @@ function update_damage(is_lured_button) {
     }
   }
 
-  // sound
-  /*let same_track_dmg = 0;
-    for (i = 0; i < sound_queue.length; i++) {
-        dmg = add_dmg(each_hit, dmg, sound_queue[i]);
-        same_track_dmg += sound_queue[i];
-    }
-    if (same_track_dmg) {
-        // sound de-lures cogs
-        is_lured_total = false;
-    }
-    // bonus damage counts as a separate hit for 2.0 cog calculations
-    dmg = add_dmg(each_hit, dmg, bonus_dmg(same_track_dmg));*/
   let dmg_lure_obj = single_track_dmg(
     sound_queue,
     is_lured_total,
     each_hit,
     dmg
   );
-  // // fixme debug outputs
-  // if (dmg_lure_array.length !== 2) {
-  //     alert("ERROR WITH SINGLE_TRACK_DMG");
-  // }
+
   dmg = dmg_lure_obj.dmg;
   is_lured_total = dmg_lure_obj.is_lured;
   dmg_lure_obj = null;
@@ -523,7 +508,6 @@ function enqueue(gag, enqueue_counter, is_lured_button) {
   // is_lured_button; // to be passed into dmg_calc;
 
   // fixme must sort based on gag, weakest gag used first for purposes of v2.0 calc
-  console.log("enqueue counter: " + enqueue_counter);
   if (enqueue_counter === 4) {
     alert("Error: the maximum gags have already been chosen!");
     return 4;
@@ -593,42 +577,6 @@ $(document).ready(function () {
     }
   });
 
-  // $(".gag_box").click(function () {
-  // 	//alert($(this).children().attr('src'));
-  // 	//calc_dmg();
-  // 	enqueue_counter = enqueue(img_to_dmg[$(this).children().attr('src')], enqueue_counter, is_lured_button);
-  // });
-  // fixme 2018/06/06: for future - previously trapped cog
-  // 	$(".gag_box").click(function () {
-  // 		//alert($(this).children().attr('src'));
-  // 		//calc_dmg();
-  // 		if (trapped_state === EnumTrapped.CLICKED) {
-  // 			trapped_state = EnumTrapped.CHOSEN;
-  // 			prev_trap_gag = img_to_gag[$(this).children().attr('src')];
-  // 			html_trap(trapped_state, prev_trap_gag.gag_name);
-  // 		}
-  // 		else {
-  // 			enqueue_counter = enqueue(img_to_gag[$(this).children().attr('src')], enqueue_counter, is_lured_button);
-  // 		}
-  // 	});
-
-  // 	// three states: unclicked, clicked and waiting, trap chosen
-  // 	$("#button_trapped").click(function () {
-  // 		if (trapped_state === EnumTrapped.UNCLICKED) {
-  // 			trapped_state = EnumTrapped.CLICKED;
-  // 			html_trap(trapped_state, false);
-  // 		}
-  // 		else if (trapped_state == EnumTrapped.CLICKED) {
-  // 			// alert("Error with trapped button");
-  // 			// nothing
-  // 		}
-  // 		else if (trapped_state == EnumTrapped.CHOSEN) {
-  // 			// nothing
-  // 		}
-  // 		else {
-  // 			alert("Bug with Trap prev turn button!");
-  // 		}
-  // 	});
   $("#button_lured").click(function () {
     clear_gags(); // must clear because otherwise you can choose a lure gag and then click this
     enqueue_counter = 0;
@@ -696,3 +644,42 @@ const cog_hp_calculator = (event) => {
 
 cog_health_input.addEventListener("keypress", cog_hp_calculator);
 cog_health_input.addEventListener("input", cog_hp_calculator);
+
+function v2_color_reset() {
+  for (let i = 9; i <= 12; i++) {
+    const lvl = `v2-${i}`;
+    const btn = document.getElementById(lvl);
+    btn.style.backgroundColor = "#dda0dd";
+  }
+}
+
+$("#show-v2").click(function () {
+  $("#v2-levels").toggle();
+  v2_color_reset();
+  clear_gags();
+  v2 = -1;
+});
+
+$("#v2-9").click(function () {
+  v2 = 9;
+  v2_color_reset();
+  this.style.backgroundColor = "#20b2aa";
+});
+
+$("#v2-10").click(function () {
+  v2 = 10;
+  v2_color_reset();
+  this.style.backgroundColor = "#20b2aa";
+});
+
+$("#v2-11").click(function () {
+  v2 = 11;
+  v2_color_reset();
+  this.style.backgroundColor = "#20b2aa";
+});
+
+$("#v2-12").click(function () {
+  v2 = 12;
+  v2_color_reset();
+  this.style.backgroundColor = "#20b2aa";
+});

@@ -52,23 +52,6 @@ section {
     font-weight: bold;
 }
 
-@media only screen and (max-width: 1260px) {
-    #cog_label::after {
-        content: '\A';
-        white-space: pre;
-        color: red;
-    }
-
-    #cog_health {
-        position: fixed;
-        display: block;
-        float: right;
-        width: 49%;
-        top: 40%;
-        right: 1.5%;
-    }
-}
-
 .nontable {
 	font-family: arial;
 	text-align: center;
@@ -177,7 +160,7 @@ button {
 	border: 2px solid darkslategray;
 	border-radius: 5px;
 	font-weight: bold;
-	height: 40px;
+	height: 50px;
 }
 
 #div_trapped {
@@ -210,11 +193,66 @@ button {
     font-weight: bold;
 }
 
-/*
-COLORS:
-#0270BB = schticker book
-#0E87BE = schticker book hover
-#0288DF = battle
-*/
+.gag-options {
+    /* margin: auto; */
+    width: 450px;
+    height: 200px;
+    background-color: #fff;
+    display: grid;
+    grid-template-columns: 200px 200px;
+    grid-row: auto auto;
+    grid-column-gap: 20px;
+    grid-row-gap: 0px;
+    z-index: 1;
+}
 
-/* Copyright 2016 Ethan Hong */
+#show-v2 {
+    background-color: lightblue;
+}
+
+#section-parent {
+    float: left;
+    padding-left: 120px;
+    padding-top: 20px;
+}
+
+#section-parent section {
+    width: 49%;
+    float: left;
+}
+
+#v2-levels {
+    display: none;
+    margin-left: 15px;
+}
+
+.v2-0 {
+    /* background-color: rgb(216, 87, 87); */
+    background-color: plum;
+}
+
+@media only screen and (max-width: 1260px) {
+    #cog_label::after {
+        content: '\A';
+        white-space: pre;
+        color: red;
+    }
+
+    #cog_health {
+        position: fixed;
+        display: block;
+        float: right;
+        width: 49%;
+        top: 40%;
+        right: 1.5%;
+    }
+
+    #section-parent {
+        float: none;
+        padding: 0;
+    }
+
+    #section-parent section {
+        float: none;
+    }
+}
