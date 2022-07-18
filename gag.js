@@ -546,10 +546,10 @@ function enqueue(gag, enqueue_counter, is_lured_button) {
   return enqueue_counter;
 }
 
+var enqueue_counter = 0;
 $(document).ready(function () {
-  var enqueue_counter = 0;
-  var trapped_state = EnumTrapped.UNCLICKED;
-  var prev_trap_gag = null;
+  // var trapped_state = EnumTrapped.UNCLICKED;
+  // var prev_trap_gag = null;
   var is_lured_button = false;
 
   $(".gag_box").mousedown(function (event) {
@@ -653,33 +653,50 @@ function v2_color_reset() {
   }
 }
 
-$("#show-v2").click(function () {
-  $("#v2-levels").toggle();
+function v2_reset() {
   v2_color_reset();
   clear_gags();
+  enqueue_counter = 0;
+
+  // prev trap stuff
+  trapped_state = EnumTrapped.UNCLICKED;
+  prev_trap_gag = null;
+  html_trap(EnumTrapped.UNCLICKED, null);
+
+  // lure stuff
+  is_lured_button = false;
+  $("#bool_lured").html("no");
+
+  update_damage(is_lured_button);
+
+}
+
+$("#show-v2").click(function () {
+  $("#v2-levels").toggle();
+  v2_reset();
   v2 = -1;
 });
 
 $("#v2-9").click(function () {
   v2 = 9;
-  v2_color_reset();
+  v2_reset();
   this.style.backgroundColor = "#20b2aa";
 });
 
 $("#v2-10").click(function () {
   v2 = 10;
-  v2_color_reset();
+  v2_reset();
   this.style.backgroundColor = "#20b2aa";
 });
 
 $("#v2-11").click(function () {
   v2 = 11;
-  v2_color_reset();
+  v2_reset();
   this.style.backgroundColor = "#20b2aa";
 });
 
 $("#v2-12").click(function () {
   v2 = 12;
-  v2_color_reset();
+  v2_reset();
   this.style.backgroundColor = "#20b2aa";
 });
