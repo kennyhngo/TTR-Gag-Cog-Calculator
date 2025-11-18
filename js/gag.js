@@ -14,7 +14,7 @@ export function buildGags() {
       gagMap.set(src, new Gag(track, name, baseDmg, track === "Sound", false, src));
       organicMap.set(
         src,
-        new Gag(track, name, Math.ceil(baseDmg * ORGANIC_MULT), track === "Sound", true, src)
+        new Gag(track, name, Math.floor(baseDmg * ORGANIC_MULT), track === "Sound", true, src)
       );
     });
   }
