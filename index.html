@@ -2,213 +2,88 @@
 <html lang="en">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <link type="text/css" rel="stylesheet" href="styles.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <title>Toontown Calculator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toontown Gag Calculator</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-    <div id="div_wrapper">
-        <section id="gag_calculator">
-            <h1 id="title" class="nontable">Toontown Calculator</h1>
-            <h2 id="dir_title" class="nontable">Directions:</h2>
-            <p id="dir_p" class="nontable">
-                Press the buttons to simulate using gags.
-                <br />
-                Left click adds a regular gag.
-                Right click adds an organic gag.
-            </p>
+  <div id="app">
+    <section id="gag_calculator">
+      <h1>Toontown Calculator</h1>
+      <p>
+        Left click = normal gag<br />
+        Right click = organic gag
+      </p>
 
-            <div id="div_heal" class="nontable">
-                <p>Healing: <span id="span_heal">0</span></p>
-            </div>
-            <div id="div_dmg" class="nontable">
-                <p>Damage: <span id="span_dmg">0</span></p>
-            </div>
+      <div id="stats">
+        <p>Healing: <span id="span_heal">0</span></p>
+        <p>Damage: <span id="span_dmg">0</span></p>
+      </div>
 
-            <table id="gag_table" oncontextmenu="return false;">
-                <tbody>
-                    <tr>
-                        <td class="outer_elt">
-                            <table id="toonup_table">
-                                <tbody>
-                                    <tr>
-                                        <th>TOON-UP</th>
-                                        <td class="gag_box"><img class="gag_img" src="images/Feather.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Megaphone.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Lipstick.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Bamboo_Cane.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Pixie_Dust.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Juggling_Balls.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/High_Dive.webp"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="outer_elt">
-                            <table id="trap_table">
-                                <tbody>
-                                    <tr>
-                                        <th>TRAP</th>
-                                        <td class="gag_box"><img class="gag_img" src="images/Banana_Peel.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Rake.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Marbles.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Quicksand.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Trapdoor.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/TNT.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Railroad.webp"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="outer_elt">
-                            <table id="lure_table">
-                                <tbody>
-                                    <tr>
-                                        <th>LURE</th>
-                                        <td class="gag_box"><img class="gag_img" src="images/$1_Bill.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Small_Magnet.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/$5_Bill.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Big_Magnet.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/$10_Bill.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Hypno_Goggles.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Presentation.webp"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="outer_elt">
-                            <table id="sound_table">
-                                <tbody>
-                                    <tr>
-                                        <th>SOUND</th>
-                                        <td class="gag_box"><img class="gag_img" src="images/Bike_Horn.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Whistle.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Bugle.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Aoogah.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Elephant_Trunk.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Foghorn.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Opera_Singer.webp"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="outer_elt">
-                            <table id="throw_table">
-                                <tbody>
-                                    <tr>
-                                        <th>THROW</th>
-                                        <td class="gag_box"><img class="gag_img" src="images/Cupcake.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Fruit_Pie_Slice.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Cream_Pie_Slice.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Whole_Fruit_Pie.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Whole_Cream_Pie.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Birthday_Cake.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Wedding_Cake.webp"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="outer_elt">
-                            <table id="squirt_table">
-                                <tbody>
-                                    <tr>
-                                        <th>SQUIRT</th>
-                                        <td class="gag_box"><img class="gag_img" src="images/Squirting_Flower.webp">
-                                        </td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Glass_of_Water.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Squirt_Gun.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Seltzer_Bottle.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Fire_Hose.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Storm_Cloud.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Geyser.webp"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="outer_elt">
-                            <table id="drop_table">
-                                <tbody>
-                                    <tr>
-                                        <th>DROP</th>
-                                        <td class="gag_box"><img class="gag_img" src="images/Flower_Pot.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Sandbag.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Anvil.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Big_Weight.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Safe.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Grand_Piano.webp"></td>
-                                        <td class="gag_box"><img class="gag_img" src="images/Toontanic.webp"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+      <div id="selected_stack" class="nontable">
+        <span id="selected_stack_label">Selected Gags:</span>
+        <ul id="stack_list">
+          <li class="stack_slot"></li>
+          <li class="stack_slot"></li>
+          <li class="stack_slot"></li>
+          <li class="stack_slot"></li>
+        </ul>
+      </div>
 
-            <section id="section-parent">
+      <!-- Dynamic gag grid rendered by JS -->
+      <table id="gag_table" oncontextmenu="return false;">
+        <tbody id="gag_table_body"></tbody>
+      </table>
 
-                <section class="gag-options nontable">
+      <div id="controls">
+        <button id="button_lured">Lured from previous turn: <span id="bool_lured">no</span></button>
+        <button id="button_undo">Undo last gag: <span id="prev_gag">none</span></button>
+        <button id="button_reset">Reset</button>
+      </div>
+    </section>
 
-                    <!--<div id="div_trapped" class="nontable"><button id="button_trapped">Trap from previous turn: <span id="trapped_val">no</span></button></div>-->
-                    <div id="div_lured" class="nontable"><button id="button_lured">Lured from previous turn: <span
-                                id="bool_lured">no</span></button></div>
-                    <div id="div_undo" class="nontable"><button id="button_undo" class="nontable">Undo previous gag:<br>
-                            <span id="prev_gag">none</span></button></div>
-                    <div id="div_reset" class="nontable"><button id="button_reset">Reset all gags</button></div>
-                    <div id="v2" class="nontable"><button id="show-v2">v2.0?</button></div>
+    <section id="cog_health">
+      <h3>Cog Selection</h3>
 
-                </section>
+      <div id="cog_health_display">
+        <p>Total Health: <span id="cog_total_hp">0</span></p>
+        <p>Health After Damage: <span id="cog_remaining_hp">0</span></p>
+      </div>
 
-                <section class="v2" id="v2-levels">
-                    <h2 class="nontable">v2.0 Cogs</h2>
-                    <div class="gag-options">
+      <div id="cog_level_grid">
+        <!-- Levels auto-populated by JS -->
+      </div>
 
-                        <div class="nontable"><button class="v2-0" id="v2-9">Lvl 9</button></div>
-                        <div class="nontable"><button class="v2-0" id="v2-10">Lvl 10</button></div>
-                        <div class="nontable"><button class="v2-0" id="v2-11">Lvl 11</button></div>
-                        <div class="nontable"><button class="v2-0" id="v2-12">Lvl 12</button></div>
-                    </div>
-                </section>
-            </section>
+      <h4 id="special_cog_title">Special Cogs</h4>
+      <div class="special_cog_group">
+        <label>Factory Foreman:</label>
+        <button class="special_cog" data-type="factory" data-id="scrap">Scrap</button>
+        <button class="special_cog" data-type="factory" data-id="steel">Steel</button>
+      </div>
 
+      <div class="special_cog_group">
+        <label>Mint Auditor:</label>
+        <button class="special_cog" data-type="mint" data-id="coin">Coin</button>
+        <button class="special_cog" data-type="mint" data-id="bullion">Bullion</button>
+      </div>
 
-            <!-- <div id="updates" class="nontable">
-            <p>Update 1.1 (2018/06/06): Organic gags, reset all button, and bug fix with trap on a lured cog.</p>
-        </div> -->
+      <div class="special_cog_group">
+        <label>Office Clerk:</label>
+        <button class="special_cog" data-type="office" data-id="junior">Junior</button>
+        <button class="special_cog" data-type="office" data-id="senior">Senior</button>
+      </div>
 
-            <!--<div id="contact_info" class="nontable">-->
-            <!--<p>To submit feedback, please click me.</p>-->
-            <!--</div>-->
-        </section>
+      <div class="special_cog_group">
+        <label>Club President:</label>
+        <button class="special_cog" data-type="club" data-id="fairway">Front Fairway</button>
+        <button class="special_cog" data-type="club" data-id="fringe">Final Fringe</button>
+      </div>
+    </section>
+  </div>
 
-        <section id="cog_health">
-            <span class="big-font" id="cog_label">Cog Level:</span>
-            <input id="cog_input" type="number">
-            <p class="big-font">Cog health:
-                <span id="cog_health_value">0</span>
-            </p>
-        </section>
-    </div>
-
-
-    <script src="gag.js"></script>
-
-
+  <script type="module" src="js/main.js"></script>
 </body>
 
 </html>
