@@ -20,13 +20,17 @@ function singleTrackDamage(arr, trackName, isLured, hitList, dmg) {
 
   // same-track bonus (20%)
   if (arr.length >= 2) {
-    dmg = addDmg(hitList, dmg, Math.ceil(trackSum * 0.2));
+    dmg = addDmg(hitList, dmg, Math.floor(trackSum * 0.2));
   }
 
   // lure bonus (applies to all tracks except Sound; Drop handled externally if needed)
   if (arr.length >= 1 && isLured && trackName !== "Sound") {
-    dmg = addDmg(hitList, dmg, Math.ceil(trackSum * 0.5));
+    dmg = addDmg(hitList, dmg, Math.floor(trackSum * 0.5));
     isLured = false;
+  }
+
+  if (state.modifier.type === "club_president") {
+    dmg = addDmg(hitList, dmg, Math.floor(trackSum * state.modifier.value / 100));
   }
 
   return { dmg, isLured };
@@ -48,7 +52,11 @@ export function updateDamage() {
   // lure
   if (queues["Lure"].length > 0) {
     if (state.trapPending > 0) {
-      dmg = addDmg(hitList, dmg, state.trapPending);
+      let initdmg = state.trapPending;
+      const modifiedDmg = state.modifier.type === "club_president"
+        ? initdmg * (1 + state.modifier.value / 100)
+        : initdmg;
+      dmg = addDmg(hitList, dmg, Math.floor(modifiedDmg));
       isLured = false;
     } else {
       isLured = true;

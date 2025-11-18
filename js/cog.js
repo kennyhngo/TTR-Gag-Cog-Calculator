@@ -9,7 +9,6 @@ export function calcLevelHP(level) {
 
 export function applyModifier(baseHP, cogType) {
   const modifier = state.modifier;
-  console.log(state.selectedCog);
   if (!modifier.type) return baseHP;
 
   // Foreman: +25% defense
