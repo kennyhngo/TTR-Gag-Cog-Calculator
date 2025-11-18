@@ -11,13 +11,12 @@ export function setupGagEvents() {
     const src = td.dataset.src;
     const gag = e.button === 2 ? organicMap.get(src) : gagMap.get(src);
     if (!gag) return;
-
     if (!state.enqueue(gag)) return;
     updateDamage();
   });
 
   document.getElementById("button_lured").addEventListener("click", () => {
-    state.reset();
+    if (state.enqueueCounter > 0) state.reset();
     state.toggleLure();
     document.getElementById("bool_lured").textContent = state.isLured ? "yes" : "no";
     updateDamage();
@@ -31,5 +30,10 @@ export function setupGagEvents() {
     state.reset();
     document.getElementById("bool_lured").textContent = "no";
     updateDamage();
+  });
+
+  document.getElementById("cog_reset").addEventListener("click", () => {
+    state.clearCapture();
+    document.getElementById("capture_history").innerHTML = "";
   });
 }

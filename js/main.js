@@ -1,3 +1,4 @@
+import { setupCaptureButton } from "./capture.js";
 import { setupCogUI } from "./cog.js";
 import { updateDamage } from "./damage.js";
 import { setupGagEvents } from "./events.js";
@@ -12,3 +13,4 @@ renderGrid();
 setupGagEvents();
 setupCogUI();
 updateDamage();
+setupCaptureButton();

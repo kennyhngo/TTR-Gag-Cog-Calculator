@@ -17,6 +17,12 @@ export class BattleState {
     this.enqueueCounter = 0;  // number selected
     this.isLured = false;     // prior lure state
     this.selectedCog = { type: "level", id: 0, hp: 0 }; // default
+    this.trapPending = 0;
+    this.captureHistory = [];
+    this.modifier = {
+      type: null,  // foreman, auditor, club_president
+      value: null  // 25, 150, 200, 20, 40, 60
+    };
   }
 
   // ========== RESET LOGIC ==========
@@ -25,6 +31,7 @@ export class BattleState {
     this.gagQueue.length = 0;
     this.enqueueCounter = 0;
     this.isLured = false;
+    this.trapPending = 0;
   }
 
   // ========== LURE HANDLING ==========
@@ -39,11 +46,19 @@ export class BattleState {
 
     // trap/lure rule
     if (gag.track === "Trap" && this.isLured) return false;
-    if (gag.track === "Lure" && this.isLured) return false;
+    // if (gag.track === "Lure" && this.isLured) return false;
 
     this.queues[gag.track].push(gag);
     this.gagQueue.push(gag);
     this.enqueueCounter++;
+
+    if (gag.track === "Trap") {
+      this.trapPending += gag.dmg;
+      if (this.queues[gag.track].length >= 2) {
+        this.undo();
+        return false;
+      }
+    }
     return true;
   }
 
@@ -54,6 +69,8 @@ export class BattleState {
     const gag = this.gagQueue.pop();
     this.queues[gag.track].pop();
     this.enqueueCounter--;
+
+    if (gag.track === "Trap") this.trapPending -= gag.dmg;
     return true;
   }
 
@@ -64,5 +81,22 @@ export class BattleState {
 
   setCogObj(cog) {
     this.selectedCog = cog;
+  }
+
+  addCapture(entry) {
+    this.captureHistory.push(entry);
+  }
+
+  clearCapture() {
+    this.captureHistory = [];
+  }
+
+  setModifier(type, value) {
+    this.modifier.type = type;
+    this.modifier.value = value;
+  }
+
+  setModifierObj(modifier) {
+    this.modifier = modifier;
   }
 }

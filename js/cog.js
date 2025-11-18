@@ -7,6 +7,35 @@ export function calcLevelHP(level) {
   return level >= 12 ? base + 14 : base;
 }
 
+export function applyModifier(baseHP, cogType) {
+  const modifier = state.modifier;
+  console.log(state.selectedCog);
+  if (!modifier.type) return baseHP;
+
+  // Foreman: +25% defense
+  if (modifier.type === "foreman" && cogType === "level") {
+    return Math.floor(baseHP * (1 + modifier.value / 100));
+  }
+
+  // Auditor: +150 HP or +200 HP
+  if (modifier.type === "auditor" && cogType === "level") {
+    return baseHP + modifier.value;
+  }
+
+  // Club President: does NOT modify cog HP
+  return baseHP;
+}
+
+export function updateCogResult() {
+  if (!state.selectedCog) return;
+  const { type, id } = state.selectedCog;
+
+  let baseHP = type === "level" ? calcLevelHP(id) : SPECIAL_COG_HP[type][id];
+  const finalHP = applyModifier(baseHP, type);
+  state.setCogObj({ type, id, hp: finalHP });
+  updateDamage();
+}
+
 export function setupCogUI() {
   const grid = document.getElementById("cog_level_grid");
   grid.innerHTML = "";
@@ -32,6 +61,7 @@ export function setupCogUI() {
     grid.appendChild(row);
   });
 
+  // cog levels
   document.querySelectorAll(".cog_level_btn").forEach(btn =>
     btn.addEventListener("click", () => {
       document.querySelectorAll(".cog_level_btn").forEach(b => b.classList.remove("active"));
@@ -42,6 +72,12 @@ export function setupCogUI() {
       const lvl = parseInt(btn.dataset.level);
       state.setCogObj({ type: "level", id: lvl, hp: calcLevelHP(lvl) });
       updateDamage();
+
+      document.querySelectorAll(".modifier-btn").forEach(b => b.classList.remove("selected"));
+
+      state.clearCapture();
+      state.setModifier(null, null);
+      document.getElementById("capture_history").innerHTML = "";
     })
   );
 
@@ -57,6 +93,32 @@ export function setupCogUI() {
 
       state.setCogObj({ type, id, hp: SPECIAL_COG_HP[type][id] });
       updateDamage();
+
+      state.clearCapture();
+      state.setModifier(null, null);
+      document.getElementById("capture_history").innerHTML = "";
     })
   );
+
+  // modifiers
+  document.querySelectorAll(".modifier-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const mod = btn.dataset.mod;
+      const val = Number(btn.dataset.value);
+
+      // Click same button again + deselect modifier
+      if (state.modifier.type === mod && state.modifier.value === val) {
+        btn.classList.remove("selected");
+        state.setModifier(null, null);
+      } else {
+        document.querySelectorAll(".modifier-btn").forEach(b => b.classList.remove("selected"));
+
+        btn.classList.add("selected");
+        state.setModifier(mod, val);
+      }
+
+      updateCogResult();
+      state.clearCapture();
+    });
+  });
 }
