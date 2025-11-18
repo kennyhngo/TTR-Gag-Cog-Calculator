@@ -39,24 +39,27 @@
 
       <div id="controls">
         <button id="button_lured">Lured from previous turn: <span id="bool_lured">no</span></button>
-        <button id="button_undo">Undo last gag: <span id="prev_gag">none</span></button>
+        <button id="button_undo">Undo last gag</button>
         <button id="button_reset">Reset</button>
       </div>
     </section>
 
     <section id="cog_health">
-      <h3>Cog Selection</h3>
+      <h1>Cog Selection</h1>
 
       <div id="cog_health_display">
         <p>Total Health: <span id="cog_total_hp">0</span></p>
         <p>Health After Damage: <span id="cog_remaining_hp">0</span></p>
       </div>
+      <button id="button_capture">Capture</button>
+      <button id="cog_reset">Reset History</button>
 
+      <h2 id="cog-level">Levels</h2>
       <div id="cog_level_grid">
         <!-- Levels auto-populated by JS -->
       </div>
 
-      <h4 id="special_cog_title">Special Cogs</h4>
+      <h2 id="special_cog_title">Special Cogs</h2>
       <div class="special_cog_group">
         <label>Factory Foreman:</label>
         <button class="special_cog" data-type="factory" data-id="scrap">Scrap</button>
@@ -80,6 +83,58 @@
         <button class="special_cog" data-type="club" data-id="fairway">Front Fairway</button>
         <button class="special_cog" data-type="club" data-id="fringe">Final Fringe</button>
       </div>
+    </section>
+
+    <section id="misc-section">
+      <section id="history">
+        <h1>History</h1>
+        <ul id="capture_history"></ul>
+      </section>
+
+      <section id="modifiers">
+        <h1>Special Modifiers on Cogs</h1>
+
+        <div id="modifier_grid">
+
+          <!-- Foreman -->
+          <button class="modifier-btn" data-mod="foreman" data-value="25">
+            <h2>Foreman</h2>
+            <p>+25% Defense</p>
+            <p class="note">Level cogs only</p>
+          </button>
+
+          <!-- Club President -->
+          <button class="modifier-btn" data-mod="club_president" data-value="20">
+            <h2>Club President</h2>
+            <p>+20% Damage Boost</p>
+          </button>
+
+          <!-- Auditor -->
+          <button class="modifier-btn" data-mod="auditor" data-value="150">
+            <h2>Auditor</h2>
+            <p>+150 HP</p>
+          </button>
+
+          <!-- Club President -->
+          <button class="modifier-btn" data-mod="club_president" data-value="40">
+            <h2>Club President</h2>
+            <p>+40% Damage Boost</p>
+          </button>
+
+          <!-- Auditor -->
+          <button class="modifier-btn" data-mod="auditor" data-value="200">
+            <h2>Auditor</h2>
+            <p>+200 HP</p>
+          </button>
+
+          <!-- Club President -->
+          <button class="modifier-btn" data-mod="club_president" data-value="60">
+            <h2>Club President</h2>
+            <p>+60% Damage Boost</p>
+          </button>
+
+        </div>
+      </section>
     </section>
   </div>
 
