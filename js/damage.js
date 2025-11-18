@@ -1,4 +1,3 @@
-import { TRACK_ORDER } from "./constants.js";
 import { state } from "./main.js";
 import { renderSelectedStack } from "./stackUI.js";
 
@@ -11,22 +10,22 @@ export function addDmg(list, dmg, amt) {
   return dmg + amt;
 }
 
-function calcLureBonus(trackSum) {
-  return Math.ceil(trackSum * 0.5);
-}
-
-function singleTrackDamage(arr, isLured, hitList, dmg) {
+function singleTrackDamage(arr, trackName, isLured, hitList, dmg) {
   let trackSum = 0;
 
-  arr.forEach(gag => {
+  for (const gag of arr) {
     dmg = addDmg(hitList, dmg, gag.dmg);
     trackSum += gag.dmg;
-  });
+  }
 
-  if (arr.length >= 2) dmg = addDmg(hitList, dmg, Math.ceil(trackSum * 0.2));
+  // same-track bonus (20%)
+  if (arr.length >= 2) {
+    dmg = addDmg(hitList, dmg, Math.ceil(trackSum * 0.2));
+  }
 
-  if (arr.length >= 1 && isLured && arr !== queues["Sound"]) {
-    dmg = addDmg(hitList, dmg, calcLureBonus(trackSum));
+  // lure bonus (applies to all tracks except Sound; Drop handled externally if needed)
+  if (arr.length >= 1 && isLured && trackName !== "Sound") {
+    dmg = addDmg(hitList, dmg, Math.ceil(trackSum * 0.5));
     isLured = false;
   }
 
@@ -37,7 +36,6 @@ export function updateDamage() {
   const queues = state.queues;
   let isLured = state.isLured;      // local working copy
   const selectedCog = state.selectedCog;
-  console.table(state.selectedCog);
 
   let dmg = 0;
   let heal = 0;
@@ -46,22 +44,11 @@ export function updateDamage() {
   // heal
   queues["Toon-up"].forEach(g => (heal += g.dmg));
 
-  // trap
-  let trapPending = 0;
-  if (queues["Trap"].length === 1) {
-    if (isLured) {
-      dmg = addDmg(hitList, dmg, queues["Trap"][0].dmg);
-      isLured = false;
-    } else {
-      trapPending = queues["Trap"][0].dmg;
-    }
-  }
-
+  // trap is handled by event enqueue
   // lure
-  if (queues["Lure"].length >= 1) {
-    if (trapPending > 0) {
-      dmg = addDmg(hitList, dmg, trapPending);
-      trapPending = 0;
+  if (queues["Lure"].length > 0) {
+    if (state.trapPending > 0) {
+      dmg = addDmg(hitList, dmg, state.trapPending);
       isLured = false;
     } else {
       isLured = true;
@@ -69,10 +56,16 @@ export function updateDamage() {
   }
 
   // all damage tracks
-  for (const track of TRACK_ORDER) {
-    const r = singleTrackDamage(queues[track], isLured, hitList, dmg);
+  for (const track of ["Sound", "Throw", "Squirt"]) {
+    const r = singleTrackDamage(queues[track], track, isLured, hitList, dmg);
     dmg = r.dmg;
     isLured = r.isLured;
+  }
+
+  // drop misses if lured
+  if (!isLured) {
+    const r = singleTrackDamage(queues["Drop"], "Drop", false, hitList, dmg);
+    dmg = r.dmg;
   }
 
   // UI
