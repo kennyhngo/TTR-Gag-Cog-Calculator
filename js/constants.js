@@ -95,5 +95,11 @@ export const SPECIAL_COG_HP = {
   club: {
     fairway: 1200,
     fringe: 1750
+  },
+  boiler: {
+    one: 4000,
+    two: 4500,
+    three: 5000,
+    four: 5500
   }
 };

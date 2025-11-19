@@ -32,6 +32,9 @@ function singleTrackDamage(arr, trackName, isLured, hitList, dmg) {
   if (state.modifier.type === "club_president") {
     dmg = addDmg(hitList, dmg, Math.floor(trackSum * state.modifier.value / 100));
   }
+  if (state.modifier.type === "boiler") {
+    dmg = addDmg(hitList, dmg, Math.floor(trackSum * state.modifier.value / 100));
+  }
 
   return { dmg, isLured };
 }
